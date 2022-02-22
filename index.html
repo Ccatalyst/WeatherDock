@@ -18,7 +18,7 @@
 			<h1>Weather Dashboard</h1>
 		</nav>
 		<main class="row col-md-12">
-			<aside class="row col-md-3">
+			<aside class="row col-md-3 h-100 d-inline-block">
 				<h1>Search for a City:</h1>
 				<input
 					class="searchBar"
@@ -43,10 +43,10 @@
 				<div class="wind">Wind: <span id="wind"></span> MPH</div>
 				<div class="humidity">Humidity: <span id="humidity"></span>%</div>
 				<div class="uv">UV Index: <span id="uv"></span></div>
-			</section>
-			<section class="col-md-9">
-				<h2>5-Day Forecast:</h2>
-				<div id="fiveDay"></div>
+				<div class="col-md-9 align-content-left">
+					<h2>5-Day Forecast:</h2>
+					<div id="fiveDay" class="d-flex"></div>
+				</div>
 			</section>
 		</main>
 		<script

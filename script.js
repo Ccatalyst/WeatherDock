@@ -6,6 +6,10 @@ var history = $("#history");
 searchBtn.on("click", function () {
 	//grab searchBar value
 	fetchCoords(searchBar.val());
+	var cityHistory = JSON.parse(localStorage.getItem("history")) || [];
+	cityHistory.push(searchBar.val());
+	localStorage.setItem("history", JSON.stringify(cityHistory));
+
 	//set value into local storage and have a button created in history
 	searchBar.val("");
 });
@@ -35,7 +39,7 @@ var fiveDayFetch = function (days) {
 		const day = days[index];
 		var dayCard = document.createElement("div");
 		$(dayCard).attr("id", "day-" + index);
-		$(dayCard).attr("class", "fiveDayCard");
+		$(dayCard).attr("class", "col-md-1 fiveDayCard");
 		var todayDay = new Date(day.dt * 1000);
 
 		var dateElement =
@@ -86,8 +90,20 @@ var weatherFetch = function (lat, lon, name, state) {
 		$("#wind").empty().append(response.current.wind_speed);
 		$("#humidity").empty().append(response.current.humidity);
 		$("#uv").empty().append(response.current.uvi);
-		if (condition) {
-		} else {
+		if (response.current.uvi <= 3) {
+			$("#uv").attr("class", "").addClass("low");
+		}
+		if (response.current.uvi > 3 && response.current.uvi <= 5) {
+			$("#uv").attr("class", "").addClass("moderate");
+		}
+		if (response.current.uvi < 5 && response.current.uvi >= 7) {
+			$("#uv").attr("class", "").addClass("high");
+		}
+		if (response.current.uvi < 7 && response.current.uvi >= 10) {
+			$("#uv").attr("class", "").addClass("veryHigh");
+		}
+		if (response.current.uvi > 10) {
+			$("#uv").attr("class", "").addClass("extreme");
 		}
 
 		fiveDayFetch(response.daily);

@@ -1,18 +1,37 @@
 var searchBar = $("#searchBar");
 var searchBtn = $("#searchBtn");
 var history = $("#history");
+var cityHistoryArray;
 
 //when searching for a city, weather info is shown for that city
-searchBtn.on("click", function () {
+searchBtn.on("click", function (event) {
 	//grab searchBar value
 	fetchCoords(searchBar.val());
 	var cityHistory = JSON.parse(localStorage.getItem("history")) || [];
 	cityHistory.push(searchBar.val());
 	localStorage.setItem("history", JSON.stringify(cityHistory));
-
 	//set value into local storage and have a button created in history
+	cityHistoryArray = cityHistory;
 	searchBar.val("");
+	generateHistoryButton(event);
 });
+//
+var generateHistoryButton = function (event) {
+	$("#history").empty();
+	cityHistoryArray.forEach((content) => {
+		var cityHistoryBtn = $("<button>");
+		cityHistoryBtn.attr("class", "btn btn-outline-secondary");
+		cityHistoryBtn.attr("type", "button");
+		cityHistoryBtn.text(content);
+
+		$("#history").prepend(cityHistoryBtn);
+	});
+	$(".btn-outline-secondary").on(
+		"click",
+		fetchCoords(".btn-outline-secondary".val())
+	);
+};
+
 //Generates a new button with the search term you provide.
 // var generateHistoryButton = function(searchTerm) { create button, append to history element, set onclick event }
 
